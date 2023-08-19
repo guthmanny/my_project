@@ -1,5 +1,6 @@
 # 产品名称
 待落实
+![Screenshot](../img/Artboard.svg)
 # 产品定价
 299起
 # 目标人群
