@@ -12,12 +12,9 @@
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link href="css/font-awesome.min.css" rel="stylesheet">
         <link href="css/base.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
-
-        <script src="js/jquery-1.10.2.min.js" defer></script>
-        <script src="js/bootstrap.min.js" defer></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
-        <script>hljs.initHighlightingOnLoad();</script> 
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
     </head>
 
     <body>
@@ -36,8 +33,14 @@
                             <li class="navitem">
                                 <a href="index.html" class="nav-link">Home</a>
                             </li>
-                            <li class="navitem">
-                                <a href="product_concept.html" class="nav-link">Concept</a>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">User <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="concept/product_concept.html" class="dropdown-item">concept</a>
+</li>
+                                </ul>
                             </li>
                             <li class="navitem active">
                                 <a href="about.html" class="nav-link">About</a>
@@ -46,7 +49,7 @@
 
                     <ul class="nav navbar-nav ml-auto">
                             <li class="nav-item">
-                                <a rel="prev" href="product_concept.html" class="nav-link">
+                                <a rel="prev" href="concept/product_concept.html" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
@@ -110,11 +113,16 @@ RawContentLength  : 3353</p></div>
             <hr>
             <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
         </footer>
+        <script src="js/jquery-3.6.0.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
         <script>
             var base_url = ".",
                 shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
         </script>
-        <script src="js/base.js" defer></script>
+        <script src="js/base.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+        <script src="https://cdn.jsdeliver.net/npm/mathjax@3/es5/tex-mnl-chtml.js"></script>
 
         <div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
     <div class="modal-dialog">

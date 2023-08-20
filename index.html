@@ -12,12 +12,9 @@
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link href="css/font-awesome.min.css" rel="stylesheet">
         <link href="css/base.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
-
-        <script src="js/jquery-1.10.2.min.js" defer></script>
-        <script src="js/bootstrap.min.js" defer></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
-        <script>hljs.initHighlightingOnLoad();</script> 
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
     </head>
 
     <body class="homepage">
@@ -36,8 +33,14 @@
                             <li class="navitem active">
                                 <a href="index.html" class="nav-link">Home</a>
                             </li>
-                            <li class="navitem">
-                                <a href="product_concept.html" class="nav-link">Concept</a>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">User <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="concept/product_concept.html" class="dropdown-item">concept</a>
+</li>
+                                </ul>
                             </li>
                             <li class="navitem">
                                 <a href="about.html" class="nav-link">About</a>
@@ -51,7 +54,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="product_concept.html" class="nav-link">
+                                <a rel="next" href="concept/product_concept.html" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -85,26 +88,205 @@
             </li>
               </ul>
             </li>
+            
+            <li class="nav-item" data-level="1"><a href="#markdown-cheat-sheet" class="nav-link">Markdown Cheat Sheet</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#basic-syntax" class="nav-link">Basic Syntax</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="1"><a href="#h1" class="nav-link">H1</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#h2" class="nav-link">H2</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#extended-syntax" class="nav-link">Extended Syntax</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
         </ul>
     </div>
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="welcome-to-mklorum">Welcome to MkLorum</h1>
+<h1 id="welcome-to-mklorum">Welcome to MkLorum<a class="headerlink" href="#welcome-to-mklorum" title="Permanent link">&para;</a></h1>
 <p>For full documentation visit <a href="https://www.mkdocs.org">mkdocs.org</a>.</p>
-<h2 id="commands">Commands</h2>
+<h2 id="commands">Commands<a class="headerlink" href="#commands" title="Permanent link">&para;</a></h2>
 <ul>
 <li><code>mkdocs new [dir-name]</code> - Create a new project.</li>
 <li><code>mkdocs serve</code> - Start the live-reloading docs server.</li>
 <li><code>mkdocs build</code> - Build the documentation site.</li>
 <li><code>mkdocs -h</code> - Print help message and exit.</li>
 </ul>
-<h2 id="project-layout">Project layout</h2>
+<h2 id="project-layout">Project layout<a class="headerlink" href="#project-layout" title="Permanent link">&para;</a></h2>
 <pre><code>mkdocs.yml    # The configuration file.
 docs/
     index.md  # The documentation homepage.
     ...       # Other markdown pages, images and other files.
-</code></pre></div>
+</code></pre>
+<h3 id="_1">需求<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
+<ul>
+<li>gain旋钮使用数控方式实现0-60dB的增益调节</li>
+<li>gain参数的级数为0-60dB共61级</li>
+<li>gain参数的控制协议可以是SPI或I2C</li>
+<li>取消掉巨大的隔直电容，使用直流伺服电路进行offset补偿</li>
+<li>使用AD作为数字界面</li>
+<li>提供asio驱动用</li>
+<li>使用mcu进行gain旋钮的增益控制</li>
+<li>使用软件界面进行增益控制的调节</li>
+<li>使用电位器进行增益控制的调节</li>
+<li>增益控制时使用跨零侦测电路实现无噪声增益调节</li>
+<li>提供符合标准的48V幻像供电</li>
+</ul>
+<h3 id="_2">设计<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<p>电路拓扑架构使用由三个放大器构成的仪表放大器电路。电路的前端两个放大器提供大部分信号增益。
+前端两个放大器使用由分立元件构成的电流负反馈放大器，实现最优的性能。前端电路的共模增益为1，后面连接的第三个放大器实现抑制共模信号的作用。
+假设A1和A2的开环增益足够大，放大器的闭环时的中频增益（远高于由电容和电阻形成的高通滤波器的截止频率）Ad是：</p>
+<div class="arithmatex">\[
+A_d=\frac{V_{out}}{V_{in}}=1+(2R_f/R_G)
+\]</div>
+<p>由外部信号或幻像供电引入的dc电压被耦合电容Cc滤除。有放大器A1和A2引入的输入偏移电压将被放大，由于放大器的增益高达60dB，1mV的偏移电压会产生1V的输出DC电压。这个输出偏移电压随增益的变化而变化，并且偏移电压的变化是可听见的。</p>
+<h3 id="_3">隔直电容的引入<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<p>消除这种可听见的dc声音的方法是在反馈环路增加交流耦合电容切断直流反馈通路。此时差动偏移电压的增益Vout/Vos将不随增益调节而改变，变为单位值1。</p>
+<p>由于引入了电容Cg，由差动偏移DC增益和差动信号增益共同构成的放大器的频响出现了一阶shelving高通滤波特性：</p>
+<div class="arithmatex">\[
+f_p=\frac{1}{2\pi RgCg}
+\]</div>
+<p>极点位置出现在：</p>
+<div class="arithmatex">\[
+f_z=\frac{1}{2\pi(R_g+2R_f)C_g}
+\]</div>
+<p>差分增益在DC是单位值1，然后在fz和fp之间每个10倍频程上升20dB。此方法对消除增益调节过程中出现的噪声十分有效。其缺陷是引入了电容的噪声和电容需要比较大的容量。</p>
+<h3 id="dc">DC伺服<a class="headerlink" href="#dc" title="Permanent link">&para;</a></h3>
+<p>为了解决隔直电容引入的问题，可以使用DC伺服电路代替隔直电容去维持DC偏移电压恒定。
+DC伺服电路使用积分放大电路对放大器的输出进行检测输出控制电压已纠正产生的误差。假设积分放大电路具有足够高的开环增益，电路将保持放大器的DC输出偏移电压等于DC输入偏移电压。</p>
+<h3 id="_4">频域效果<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<p>伺服电路的输出直接加载到放大器的输入，此时由输入电路产生的影响应该考虑进去。</p>
+<div class="arithmatex">\[
+fo=\frac{1}{2\pi}\sqrt{\frac{A_d}{(R_d+\frac{R_s}{K})R_iC_cC_i}}
+\]</div>
+<div class="arithmatex">\[
+Q = \frac{1}{2\pi f_o(\frac{R_iC_i}{KA_d}+R_sC_c)}
+\]</div>
+<p>这里Ad = 1+(2Rf/Rg), 通带增益K=Rb/（Rb+Rd）。</p>
+<hr />
+<p>参考资料：
+SGM3005 DATASHEET
+SGM4520 DATASHEET *
+SGM4782 DATASHEET
+AD5282  DATASHEET
+AD5262  DATASHEET *
+AD5293  DATASHEET
+DC Servos and Digitally-Controlled Microphone Preamplifiers
+THAT_5171_Datasheet
+THAT626x Common-Mode Operation
+Microphone pre-amp using a THAT 320 transistor array
+AN IMPROVED MICROPHONE PREAMPLIFIER INTEGRATED CIRCUIT</p>
+<h1 id="markdown-cheat-sheet">Markdown Cheat Sheet<a class="headerlink" href="#markdown-cheat-sheet" title="Permanent link">&para;</a></h1>
+<p>Thanks for visiting <a href="https://www.markdownguide.org">The Markdown Guide</a>!</p>
+<p>This Markdown cheat sheet provides a quick overview of all the Markdown syntax elements. It can’t cover every edge case, so if you need more information about any of these elements, refer to the reference guides for <a href="https://www.markdownguide.org/basic-syntax">basic syntax</a> and <a href="https://www.markdownguide.org/extended-syntax">extended syntax</a>.</p>
+<h2 id="basic-syntax">Basic Syntax<a class="headerlink" href="#basic-syntax" title="Permanent link">&para;</a></h2>
+<p>These are the elements outlined in John Gruber’s original design document. All Markdown applications support these elements.</p>
+<h3 id="heading">Heading<a class="headerlink" href="#heading" title="Permanent link">&para;</a></h3>
+<h1 id="h1">H1<a class="headerlink" href="#h1" title="Permanent link">&para;</a></h1>
+<h2 id="h2">H2<a class="headerlink" href="#h2" title="Permanent link">&para;</a></h2>
+<h3 id="h3">H3<a class="headerlink" href="#h3" title="Permanent link">&para;</a></h3>
+<h3 id="bold">Bold<a class="headerlink" href="#bold" title="Permanent link">&para;</a></h3>
+<p><strong>bold text</strong></p>
+<h3 id="italic">Italic<a class="headerlink" href="#italic" title="Permanent link">&para;</a></h3>
+<p><em>italicized text</em></p>
+<h3 id="blockquote">Blockquote<a class="headerlink" href="#blockquote" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>blockquote</p>
+</blockquote>
+<h3 id="ordered-list">Ordered List<a class="headerlink" href="#ordered-list" title="Permanent link">&para;</a></h3>
+<ol>
+<li>First item</li>
+<li>Second item</li>
+<li>Third item</li>
+</ol>
+<h3 id="unordered-list">Unordered List<a class="headerlink" href="#unordered-list" title="Permanent link">&para;</a></h3>
+<ul>
+<li>First item</li>
+<li>Second item</li>
+<li>Third item</li>
+</ul>
+<h3 id="code">Code<a class="headerlink" href="#code" title="Permanent link">&para;</a></h3>
+<p><code>code</code></p>
+<h3 id="horizontal-rule">Horizontal Rule<a class="headerlink" href="#horizontal-rule" title="Permanent link">&para;</a></h3>
+<hr />
+<h3 id="link">Link<a class="headerlink" href="#link" title="Permanent link">&para;</a></h3>
+<p><a href="https://www.markdownguide.org">Markdown Guide</a></p>
+<h3 id="image">Image<a class="headerlink" href="#image" title="Permanent link">&para;</a></h3>
+<p><img alt="alt text" src="https://www.markdownguide.org/assets/images/tux.png" /></p>
+<h2 id="extended-syntax">Extended Syntax<a class="headerlink" href="#extended-syntax" title="Permanent link">&para;</a></h2>
+<p>These elements extend the basic syntax by adding additional features. Not all Markdown applications support these elements.</p>
+<h3 id="table">Table<a class="headerlink" href="#table" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Syntax</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Header</td>
+<td>Title</td>
+</tr>
+<tr>
+<td>Paragraph</td>
+<td>Text</td>
+</tr>
+</tbody>
+</table>
+<h3 id="fenced-code-block">Fenced Code Block<a class="headerlink" href="#fenced-code-block" title="Permanent link">&para;</a></h3>
+<pre><code>{
+  &quot;firstName&quot;: &quot;John&quot;,
+  &quot;lastName&quot;: &quot;Smith&quot;,
+  &quot;age&quot;: 25
+}
+</code></pre>
+<h3 id="footnote">Footnote<a class="headerlink" href="#footnote" title="Permanent link">&para;</a></h3>
+<p>Here's a sentence with a footnote. <sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup></p>
+<h3 id="heading-id">Heading ID<a class="headerlink" href="#heading-id" title="Permanent link">&para;</a></h3>
+<h3 id="custom-id">My Great Heading<a class="headerlink" href="#custom-id" title="Permanent link">&para;</a></h3>
+<h3 id="definition-list">Definition List<a class="headerlink" href="#definition-list" title="Permanent link">&para;</a></h3>
+<dl>
+<dt>term</dt>
+<dd>definition</dd>
+</dl>
+<h3 id="strikethrough">Strikethrough<a class="headerlink" href="#strikethrough" title="Permanent link">&para;</a></h3>
+<p>~~The world is flat.~~</p>
+<h3 id="task-list">Task List<a class="headerlink" href="#task-list" title="Permanent link">&para;</a></h3>
+<ul>
+<li>[x] Write the press release</li>
+<li>[ ] Update the website</li>
+<li>[ ] Contact the media</li>
+</ul>
+<h3 id="emoji">Emoji<a class="headerlink" href="#emoji" title="Permanent link">&para;</a></h3>
+<p>That is so funny! :joy:</p>
+<p>(See also <a href="https://www.markdownguide.org/extended-syntax/#copying-and-pasting-emoji">Copying and Pasting Emoji</a>)</p>
+<h3 id="highlight">Highlight<a class="headerlink" href="#highlight" title="Permanent link">&para;</a></h3>
+<p>I need to highlight these ==very important words==.</p>
+<h3 id="subscript">Subscript<a class="headerlink" href="#subscript" title="Permanent link">&para;</a></h3>
+<p>H~2~O</p>
+<h3 id="superscript">Superscript<a class="headerlink" href="#superscript" title="Permanent link">&para;</a></h3>
+<p>X^2^</p>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:1">
+<p>This is the footnote.&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div></div>
             </div>
         </div>
 
@@ -112,11 +294,16 @@ docs/
             <hr>
             <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
         </footer>
+        <script src="js/jquery-3.6.0.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
         <script>
             var base_url = ".",
                 shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
         </script>
-        <script src="js/base.js" defer></script>
+        <script src="js/base.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+        <script src="https://cdn.jsdeliver.net/npm/mathjax@3/es5/tex-mnl-chtml.js"></script>
 
         <div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -163,6 +350,6 @@ docs/
 </html>
 
 <!--
-MkDocs version : 1.4.3
-Build Date UTC : 2023-08-19 13:52:55.982557+00:00
+MkDocs version : 1.5.2
+Build Date UTC : 2023-08-20 02:14:18.657048+00:00
 -->
