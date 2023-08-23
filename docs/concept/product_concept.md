@@ -123,3 +123,5 @@
 - 使用标准3.5mm外正内负电源插座
 - 使用外接9V 1A直流电源适配器
 >>>>>>> 8b1f5265164195b57bdecc6dabcba42eb6bdde1c
+ You have divergent branches and need to specify how to reconcile them.
+
