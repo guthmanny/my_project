@@ -53,3 +53,15 @@
 ### 电源接口
 - 使用标准3.5mm外正内负电源插座
 - 使用外接9V 1A直流电源适配器
+
+| First Header | Second Header | Third Header |
+| :----------- | :-----------: | -----------: |
+| Left         |    Center     |        Right |
+| Left         |    Center     |        Right |
+
+| this  | that   | three   | four  | fifth   |
+|---|---|---|---|---|
+|   |   |   |   |   |
+|   |   |   |   |   |
+|   |   |   |   |   |
+
