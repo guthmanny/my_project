@@ -1,4 +1,4 @@
-site_name: MkLorum
+site_name: Meng's Docs
 site_url: ""
 use_directory_urls: false
 plugins: [] 
@@ -14,6 +14,10 @@ extra_javascript:
   - 'https://cdn.jsdeliver.net/npm/mathjax@3/es5/tex-mnl-chtml.js'
 nav:
   - Home: index.md
-  - User:
-      - 'concept': './concept/product_concept.md'
+  - myCodes:
+      - 'Snippets': './Snippets/led_blinks.md'
+      - 'NAI-24 Code': './Snippets/nai_24_code.md'
+  - myNotes:
+      - 'Markdown Cheat Sheet': './myNotes/markdown_cheat_sheet.md'
+      - 'compressor': ./myNotes/nlive_24_compressor.md
   - About: about.md
